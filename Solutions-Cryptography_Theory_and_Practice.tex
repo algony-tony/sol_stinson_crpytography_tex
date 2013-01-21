@@ -1,0 +1,1033 @@
+\documentclass[12pt,a4paper]{article}
+
+
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{bbding}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{hyperref}
+\usepackage{fancybox}
+\hypersetup{colorlinks=true,linkcolor=blue}
+
+\renewcommand{\baselinestretch}{1.2}
+\renewcommand*{\qedsymbol}{\RectangleBold }
+
+\newcommand{\pr}{\mathbf{Pr}}
+\newcommand{\pp}{\mathscr{P}}
+\newcommand{\bp}{\mathbf{P}}
+\newcommand{\pc}{\mathscr{C}}
+\newcommand{\bc}{\mathbf{C}}
+\newcommand{\pk}{\mathscr{K}}
+\newcommand{\bk}{\mathbf{K}}
+\newcommand{\bs}{\mathbf{S}}
+\newcommand{\lra}{\Longrightarrow}
+\newcommand{\llra}{\Longleftrightarrow}
+
+\newtheoremstyle{solution}% name
+  {3pt}%      Space above
+  {3pt}%      Space below
+  {}%         Body font
+  {}%         Indent amount (empty = no indent, \parindent = para indent)
+  {\itshape}% Thm head font
+  {:}%        Punctuation after thm head
+  {.5em}%     Space after thm head: " " = normal interword space;
+        %       \newline = linebreak
+  {}%         Thm head spec (can be left empty, meaning `normal')
+
+\theoremstyle{solution}
+\newtheorem*{sol}{Solution}
+
+
+\begin{document}
+
+\title{Solutions of Cryptography Theory and Practice}
+\author{Author}
+\date{December 20, 2010}
+
+%%  revision history
+%\date{December 20, 2010}
+%\date{Dec 20, 2010}
+%\date{Dec 6, 2010}
+%\date{Nov 22, 2010}
+%\date{Nov 8, 2010}
+%\date{Nov 1, 2010}
+%\date{Oct 11, 2010}
+
+\maketitle
+
+\section{Classical Cryptography}
+
+\textbf{1.21 \\[0.4ex] (c) Affine Cipher}
+
+\begin{sol}
+Since in the affine cryptosystem only $\phi(26) \times 26 =312$ cases for key $K=(a,b)$, list all the cases brutally with the help of computer and scan quickly, I found only one case seems meaningful:
+
+\textup{ocanadaterredenosaieuxtonfrontestceintdefleuronsglorieuxcartonbrassaitporterlepeeils aitporterlacroixtonhistoireestuneepopeedesplusbrillan
+tsexploitsettavaleurdefoitrempeeprotegeranosfoyersetnosdroits}
+
+After breaking the long sentence, I found it should be the French version of Canada national anthem:
+\begin{verse}
+O Canada \\
+Terre de nos a\"{i}eux\\
+Ton front est ceint de fleurons glorieux!
+
+Car ton bras sait porter l'\'{e}p\'{e}e  \\
+Il sait porter la croix!  \\
+Ton histoire est une \'{e}pop\'{e}e  \\
+Des plus brillants exploits
+
+Et ta valeur, de foi tremp\'{e}e \\
+Prot\'{e}gera nos foyers et nos droits
+\end{verse}
+\end{sol}
+
+\textbf{1.22 }
+%Suppose that $p_1, \ldots, p_n$ and $q_1, \ldots, q_n$ are both probability distributions, and $p_1\geq \ldots \geq p_n$. Let $q'_1, \ldots, q'_n$ be any permutation of $q_1, \ldots, q_n$. Prove that the quantity
+%$$\sum_{i=1}^n p_i q'_i$$
+%is maximized when $q'_1\geq \ldots \geq q'_n$.
+
+\begin{proof}
+{\em (a)}
+Obviously in the case $p_1\geq p_2\geq 0,\, q_1\geq q_2\geq 0$, the sum $p_1 q_1 +p_2 q_2$ is maximized.
+
+Suppose $S=\sum_{i=1}^n p_i q'_i$ is maximized, and if there exists $i>j$ such that $ q'_i<q'_j$, permute the positions of the two numbers and, according to the statement of last paragraph, we get $S'={\sum\limits_{{0\leq h\leq n}\atop{h\neq i,j}} p_h q'_h}+p_i q'_j +p_j q'_i > S$, contradicts. So the only arrangement for $S$ is $q'_1\geq \ldots \geq q'_n$.
+\end{proof}
+
+%\textbf{1.27}
+%
+%\begin{proof}
+%(a) From
+%$$z_{m+i}=\sum_{j=0}^{m-1} c_j z_{i+j} \pmod2,$$
+%we could get
+%$$v_{m+i}=\sum_{j=0}^{m-1} c_j v_{i+j} \pmod2.$$
+%\end{proof}
+
+\section{Shannon's Theory}
+
+\textbf{2.2}
+
+\begin{proof}
+$\pp= \pc = \pk= \{1,\ldots,n\}.\ \forall x \in \pp,\, \forall y \in \pc$
+$$\pr [ Y=y ] = \sum_{k\in \pk } \pr [ K=k ] \pr [ x=d_k (y) ] = 1/n$$
+so
+\begin{align*}
+\pr [x|y]&=\frac{\pr[x] \pr[y|x]}{\pr[y]}\\
+          &=\frac{\pr[x] \frac{1}{n}}{\frac{1}{n}}\\
+          &=\pr[x]
+\end{align*}
+that is this {\slshape Latin Square Cryptosystem} achieves perfect secrecy provided that every  key is used with equal probability.
+\end{proof}
+
+\textbf{2.3}
+
+\begin{proof} Similarly as (2.2).\end{proof}
+
+\textbf{2.5}
+
+\begin{proof}
+According to Theorem 2.4, this cryptosystem provides perfect secrecy iff every key is used with equal probability $1/|\pk|$, and for every $x\in \pp$ and $y\in \pc$, there is unique key $k\in \pk$, such that $y=e_k(x)$.
+
+Due to perfect secrecy, we have
+\begin{align*}
+  &  &\pr[x|y]&=\pr[x]\\
+  &\Longrightarrow &\frac{\pr[x] \pr[y|x]}{\pr[y]}&=\pr[x]\\
+  &\Longrightarrow &  \pr[y]&=\pr[y|x]=\pr_{e_k(x)=y}[K=k]=1/|\pk|.\\
+\end{align*}
+that is every ciphertext is equally probable.
+\end{proof}
+
+\textbf{2.11}
+
+\begin{proof}
+(Perfect secrecy $\Rightarrow$ H($\bp|\bc$)=H($\bp$)).
+\begin{align*}
+H(\bp|\bc)&=-\sum_{y\in \bc}\sum_{x\in \bp} \pr[y]\pr[x|y]\log_2\pr[x|y]\\
+          &=-\sum_{y\in \bc}\sum_{x\in \bp} \pr[y]\pr[x]\log_2\pr[x]\\
+          &=H(\bp)\sum_{y\in \bc}\pr[y]\\
+          &=H(\bp).
+\end{align*}
+
+($H(\bp|\bc)=H(\bp)\  \Rightarrow$ Perfect secrecy).
+
+ According to Theorem 2.7,
+\begin{gather*}
+H(\bp,\ \bc)\leq H(\bp)+H(\bc)\\
+\text{with equality iff $\bp$ and $\bc$ are independent random variables.}
+\end{gather*}
+so
+\begin{align*}
+   &H(\bp|\bc)=H(\bp)\\
+\Longrightarrow\ \ &H(\bp,\ \bc)= H(\bp)+H(\bc)\\
+\Longrightarrow\ \ &\bp \ and\  \bc \text{ are independent random variables}\\
+\Longrightarrow\ \ &\forall x\in \bp,\ \forall y\in \bc,\ \pr[x|y]=\pr[x],
+\end{align*}
+that is the cryptosystem achieves perfect secrecy.
+\end{proof}
+
+\textbf{2.12}
+
+\begin{proof}
+We have
+$$H(\bk,\,\bp,\,\bc)=H(\bp|\bk,\,\bc)+H(\bk,\,\bc)=H(\bk,\,\bc),$$
+so
+\begin{align*}
+        &H(\bk,\,\bp,\,\bc)\geq H(\bp,\,\bc)\\
+\lra\ \ &H(\bk,\,\bc)\geq H(\bp,\,\bc)\\
+\lra\ \ &H(\bk|\bc)=H(\bk,\,\bc)-H(\bc)\geq H(\bp,\,\bc)-H(\bc)=H(\bp|\bc).
+\end{align*}
+\end{proof}
+
+\textbf{2.13}
+
+\begin{sol}
+$H(\bp)=\frac{1}{2}+\frac{1}{3} \log_2 3+\frac{1}{6} \log_2 6 \approx 1.45915.$
+
+$H(\bk)=\log_2 3 \approx 1.58496.$\medskip
+
+\begin{center}
+\begin{tabular}{ccc}
+$\pr[1]$&=&2/9\\
+$\pr[2]$&=&5/18\\
+$\pr[3]$&=&1/3\\
+$\pr[4]$&=&1/6\\
+\end{tabular}
+\end{center}\medskip
+
+
+$H(\bc) \approx 1.95469.$
+
+$H(\bk|\bc)=H(\bk)+H(\bp)-H(\bc)\approx 1.08942.$
+
+\begin{center}
+\begin{tabular}{rclp{4ex}rclp{4ex}rcl}
+$\pr[K_1|1]$&=&3/4 && $\pr[K_2|1]$&=&0 && $\pr[K_3|1]$&=&1/4\\
+$\pr[K_1|2]$&=&2/5 && $\pr[K_2|2]$&=&3/5 && $\pr[K_3|2]$&=&0\\
+$\pr[K_1|3]$&=&1/6 && $\pr[K_2|3]$&=&1/3 && $\pr[K_3|3]$&=&1/2\\
+$\pr[K_1|4]$&=&0 && $\pr[K_2|4]$&=&1/3 && $\pr[K_3|4]$&=&2/3\\
+\end{tabular}
+\end{center}
+
+$H(\bp|\bc)\approx 1.08942.$
+\end{sol}
+
+\textbf{2.14}
+
+\begin{sol}
+$H(\bk)=\log_2 216,\ H(\bp)=\log_2 26,\ H(\bc)=\log_2 26,$
+$$H(\bk|\bc)=H(\bk)+H(\bp)-H(\bc)=\log_2 216\approx 7.75489.$$
+It is easy to evaluate:
+$$H(\bk|\bp,\,\bc)=\log_2 12\approx 3.58496.$$
+\end{sol}
+
+\textbf{2.19}
+
+\begin{proof}
+A key in the product cipher $\bs_1 \times \bs_2$ has the form $(s_1,\,s_2)$, where $s_1,
+\,s_2 \in \mathbb{Z}_{26}$,
+$$e_{(s_1,\,s_2)}(x)=x+(s_1+s_2).$$
+But this is precisely the definition of a key in the {\slshape Shift Cipher}. Further, the probability of a key in $\bs_1 \times \bs_2$ equals $\sum\limits_{i=0}^{25}\frac{1}{26}p_i=\frac{1}{26}\sum\limits_{i=0}^{25}=\frac{1}{26},$
+which is also the probability of a key in the {\slshape Shift Cipher}. Thus $\bs_1 \times \bs_2$ is the {\slshape Shift Cipher}.
+\end{proof}
+
+\textbf{2.20}
+
+\begin{proof}
+{\em (a) }Similarly as (2.19).
+
+{\em (b) }The number of keys in $\bs_3$ equals $26^{\mathrm{lcm}(m_1,\,m_2)}$. Form the following fact we can see that the keys in $\bs_1 \times \bs_2$ are lesser when $m_1 \nequiv 0 \pmod{m_2}$.
+
+Notice
+$$
+\begin{array}{rl}
+     & m_2 < m_1,~m_1 \nequiv 0 \pmod{m_2}\\
+\lra & m_1+m_2 < 2 m_1 \leq \dfrac{m_2}{\gcd(m_1,~m_2)}m_2=l,~\text{where } l \triangleq \mathrm{lcm}(m_1,~m_2)
+\end{array}
+$$
+the equation below, which essentially gives the representation of the keys of product cryptosystem $\bs_1 \times \bs_2$, would't always has a solution $(K_1,~K_2)=(x_1,\ldots,x_{m_1},y_1,\ldots,y_{m_2})\in \pk_1 \times \pk_2,$ for any selected key $K=(z_1,\ldots,z_l)\in \pk_3,$
+$$
+\begin{array}{ccc}
+\begin{pmatrix}
+\raisebox{-2ex}{\Large $I_{m_1}$} & I_{m_2}\\
+        &I_{m_2}\\
+\vdots & \vdots \\
+         & I_{m_2}\\
+\raisebox{2ex}{\Large $I_{m_1}$}& I_{m_2}
+\end{pmatrix}~~
+\begin{pmatrix}
+x_1 \\ \vdots \\ x_{m_1} \\y_1 \\ \vdots \\y_{m_2}
+\end{pmatrix}
+&=
+& \begin{pmatrix}  z_1\\ \vdots\\ \vdots\\ z_l  \end{pmatrix},
+\end{array}
+$$
+because the coefficient matrix's column number is less than the row number. Conclusively, there must exist key $K\in \pk_3$ that not in $\pk_1 \times \pk_2.$
+\end{proof}
+
+
+\section{The RSA Cryptosystem and Factoring Integers}
+
+\textbf{5.2}
+
+\begin{proof}
+
+{\em (a) }$r_i=q_{i+1}r_{i+1}+r_{i+2}\geq r_{i+1}+r_{i+2} \geq 2r_{i+2}.$
+
+{\em (b) (c) }From (a), $m\leq \log_2 a +1 \sim \log a \sim \log b.$
+\end{proof}
+
+\textbf{5.3}
+
+\begin{sol}
+
+ {\em (a)} $17^{-1} \equiv 6\ \ \pmod{101}.$
+
+{\em (b)} $357^{-1} \equiv 1075\ \ \pmod{1234}.$
+
+{\em (c)} $3125^{-1} \equiv 1844\ \ \pmod{9987}.$
+\end{sol}
+
+\textbf{5.4}
+
+\begin{sol} $8 \times 93 -13\times 57=3.$  \end{sol}
+
+\textbf{5.5}
+
+\begin{sol}
+It's easy to see that
+$$\chi^{-1}(x,\,y,\,z)=70x+21y+15z\ \  \pmod{105}.$$
+So
+$$\chi^{-1}(2,~2,~3)=17.$$
+\end{sol}
+
+\textbf{5.6}
+
+\begin{sol}
+Similarly we have
+$$\chi^{-1}(x,\,y,\,z)=(13\times 26 \times 27)x+(25^2\times 27)y+(14\times25\times26)z\ \ \pmod{25\times26\times27}.$$
+So
+$$\chi^{-1}(12,~9,~23)= 470687.$$
+\end{sol}
+
+\textbf{5.7}
+
+\begin{sol}
+Similarly we have
+$$\chi^{-1}(x,~y)=(50\times 101)x+(51\times 99)y\ \ \pmod{99\times 101}.$$
+$13^{-1} \equiv 61\ \ \pmod{99},~15^{-1}\equiv 27\ \ \pmod{101}.$ So
+$$
+\begin{array}{rl}
+ &\left\{
+   \begin{array}{rclc}
+   13x&\equiv &4  &\pmod{99}\\
+   15x&\equiv &56 &\pmod{101}
+   \end{array} \right. \\
+   &\\
+\Longleftrightarrow &
+\left\{
+   \begin{array}{rclc}
+   x&\equiv &46  &\pmod{99}\\
+   x&\equiv &98 &\pmod{101}
+   \end{array}\right.\\
+   &\\
+\lra &x=7471.
+\end{array}
+$$
+\end{sol}
+
+\textbf{5.9}
+
+\begin{proof}
+$$
+\begin{array}{cl}
+    & \alpha\nequiv \pm 1 \pmod p,~\alpha~\text{is~primitive~element~modulo }p\\
+\Longleftrightarrow &
+\text{the order of }\alpha \in \mathbb{Z}_p^* \text{ is } 2q.\\
+\llra &
+\alpha\nequiv \pm 1 \pmod p,~\alpha^q \equiv -1 \pmod p.\\
+    &\text{(Because the order of $\alpha$ could only be 2, $q$ or $2q$.)}
+\end{array}
+$$
+\end{proof}
+
+\textbf{5.11}
+
+\begin{proof}
+By showing $x^{\lambda(n)} =1 \pmod n,~\forall x\in \mathbb{Z}_n,$ we can prove the encryption and decryption are still inverse operations in this modified cryptosystem.
+
+Since we have
+$$\mathbb{Z}_n \cong \mathbb{Z}_p \oplus \mathbb{Z}_q,$$
+and the isomorphism is $\Psi (h)=(h\pmod{p},h\pmod{q}),$ it only needs to show$x^{\lambda(n)} =1 \pmod p,$ and $x^{\lambda(n)} =1 \pmod q.$
+$$
+\begin{array}{rcl}
+x^{\lambda(n)}& \equiv &{(x^{p-1})}^{\frac{q-1}{\gcd (p-1,q-1)}}\pmod p\\
+&\equiv &(1)^{\frac{q-1}{\gcd (p-1,q-1)}}\pmod p\\
+&\equiv &1 \pmod p.
+\end{array}
+$$
+For $q$ is the same. So complete the proof.
+\end{proof}
+
+\begin{sol}{\em (b)  }$p=37,~q=79,~b=7.$ \end{sol}
+
+{\slshape Modified cryptosystem.} $\lambda (n)=468,~a=67.$
+
+{\slshape Original cryptosystem.} $\phi (n)=2808,~a=2407.$
+
+\textbf{5.13}
+
+\begin{proof}
+
+{\em (a) }Again use the isomorphism
+$$
+\mathbb{Z}_n \cong \mathbb{Z}_p \oplus \mathbb{Z}_q,
+$$
+and note that $x^{p-1}\equiv 1 \pmod{p}$ and $x^{q-1}\equiv 1 \pmod{q}$ for all $x \neq 0,$
+we get
+$$
+\begin{array}{cclcc}
+\mathbb{Z}_n & \rightarrow & \multicolumn{1}{c}{\mathbb{Z}_p \oplus \mathbb{Z}_q}  & \rightarrow & \mathbb{Z}_n\\
+y^d \pmod{n}         & \rightarrow  & ~~~(y^d \pmod{p},~y^d \pmod{q})& \rightarrow & M_p q x_p+M_q p x_q \pmod{n}\\
+&&=(y^{d_p} \pmod{p},~y^{d_q} \pmod{q})&&\\
+&&=(x_p,x_q)&&
+\end{array}
+$$
+so complete the proof.
+
+{\em (b) }$p=1511,~q=2003,$ and $d=1234577$.
+
+After some calculation, we get $d_p=907,~d_q=1345,~M_p=777,$ and $M_q=973.$
+
+{\em (c) }$y=152702,~y^{d_p}=242 \pmod{1511},~y^{d_q}=1087 \pmod{2003},~y^d=1443247 \pmod{n=3026533}.$
+\end{proof}
+
+\textbf{5.14}
+
+\begin{sol}
+If $\gcd(y,n)\neq 1,$ we get a factor $p=\gcd(y,n)$ of $n$, and another factor $q=\dfrac{n}{\gcd(y,n)}$, consequently, $d_K$ and $x=d_K(y)$ can be calculated explicitly.
+
+Now suppose $\gcd(y,n)=1$, computer $\hat{y}=y^{-1}\pmod{n}$, which is chosen as the attack allows to know the plaintext $\hat{x}$, it is easy to see that $x=\hat{x}^{-1}\pmod{n}$.
+\end{sol}
+
+\textbf{5.18}
+
+\begin{proof}
+The isomorphism
+$$
+\mathbb{Z}_n \cong \mathbb{Z}_p \oplus \mathbb{Z}_q
+$$
+is used again to show
+$$
+e_K(x)=x^a=x \llra (x^a\mod p,x^a\mod q)=(x\mod p,x\mod q).
+$$
+And
+\begin{center}
+$\mathbb{F}_p^*$ is multiplicative cyclic group of order $p-1,$\\
+$\mathbb{F}_q^*$ is multiplicative cyclic group of order $q-1,$\\
+\end{center}
+deduce that
+$$
+\#S_p=\#\{x\in \mathbb{F}_p^* | x^a =x\}=\gcd(a-1,p-1),
+$$
+$$
+\#S_q=\#\{x\in \mathbb{F}_q^* | x^a =x\}=\gcd(a-1,q-1),
+$$
+so
+$$
+\begin{array}{rcl}
+\#S&=&\# \{x\in \mathbb{Z}_n|x\neq0,(x^a\mod p,x^a\mod q)=(x\mod p,x\mod q)\}\\
+&=&\#(S_p \times S_q)\\
+&=&\gcd(a-1,p-1) \times \gcd(a-1,q-1)\\
+&=&\gcd(b-1,p-1) \times \gcd(b-1,q-1),
+\end{array}
+$$
+the last equation can be easily seen from the equality
+$$
+ab \equiv 1 \pmod{(p-1)(q-1)},\text{ i.e. }(a-1)b \equiv -(b-1) \pmod{(p-1)(q-1)}.
+$$
+\end{proof}
+
+
+\textbf{5.22}
+
+\begin{proof}
+{\em (a) }$G(n)$ is a subgroup of $\mathbb{Z}_n^*$, because $1\in G(n)$, and $\forall x,y \in G(n),$
+$$
+\left( \frac{x^{-1}}{n}\right) \equiv \left( \frac{x}{n}\right)^{-1} \equiv a^{(-1)(n-1)/2} \pmod{n},
+$$
+$$
+\left( \frac{xy}{n}\right) \equiv \left( \frac{x}{n}\right) \left( \frac{y}{n}\right) \equiv x^{(n-1)/2} y^{(n-1)/2} \equiv (xy)^{(n-1)/2} \pmod{n},
+$$
+i.e. $x^{-1}\in G(n),~xy\in G(n)$.
+
+If $G(n)\neq \mathbb{Z}_n^*$, obviously we have
+$$
+|G(n)| \leq \frac{|\mathbb{Z}_n^*|}{2}\leq \frac{n-1}{2}.
+$$
+
+{\em (b) }On one hand,
+$$
+\left( \frac{a}{n}\right) \equiv \left( \frac{1+p^{(k-1)}q}{p^k}\right) \left( \frac{1+p^{(k-1)}q}{q}\right) \equiv 1 \pmod{n},
+$$
+on the other hand,
+$$
+a^{(n-1)/2} \equiv (1+p^{(k-1)}q)^{(n-1)/2} \equiv 1+\frac{(p^kq-1)p^{(k-1)}q}{2} \equiv 1+\frac{p^{(k-1)}q}{2} \nequiv 1 \pmod{n},
+$$
+so
+$$
+\left( \frac{a}{n}\right) \nequiv a^{(n-1)/2} \pmod{n}.
+$$
+
+{\em (c) }On one hand, we have
+$$
+\left( \frac{a}{n}\right) \equiv \left( \frac{a}{p_1}\right) \left( \frac{a}{p_2 p_3 \ldots p_s}\right) \equiv (-1)\times 1\equiv 1 \pmod{n},
+$$
+on the other hand, from the definition of $a$, we have
+$$
+a^{(n-1)/2} \equiv 1 \pmod{p_2 p_3 \ldots p_s}
+$$
+so $a^{(n-1)/2} \nequiv -1 \pmod{n}$, because otherwise we can deduce that $a^{(n-1)/2} \equiv -1 \pmod{p_2 p_3 \ldots p_s}$, contradicts.
+
+{\em (d) }If $n$ is odd and composite, suppose its factorization is $n=p_1^{k_1}p_2^{k_2}\ldots p_s^{k_s}$, then there must exit $n_1$ of the form $p^k q$ or the form $p_1 \ldots p_s$ for some primes $p,q,p_1, \ldots, p_s$, such that $n=n_1 n_2$. Now if $G(n)=\mathbb{Z}_n^*$, i.e. $\forall a \in \mathbb{Z}_n^*,\left( \frac{a}{n}\right) \equiv a^{(n-1)/2} \pmod{n}$, so we have $\forall a \in \mathbb{Z}_n^*,\left( \frac{a}{n}\right) \equiv a^{(n-1)/2} \pmod{n_1}$, which contradicts the results of (b) and (c). Thus we must have $G(n)\neq \mathbb{Z}_n^*$, and, resulting from (a), $G(n)\leq (n-1)/2$.
+
+{\em (e) } Summarize the above: we finally prove that the error probability of the Solovay-Strassen primality test is at most 1/2.
+\end{proof}
+
+
+\textbf{5.23}
+
+\begin{proof}
+{\em (b)} The average number of trials to achieves success is
+$$
+\sum_{n=1}^{\infty} (n\times p_n),
+$$
+now apply the following identity
+\begin{align*}
+\frac{1}{(1-x)^2} &=\frac{\mathrm{d}}{\mathrm{d}x}\left(\frac{1}{1-x}\right) \\
+&=\frac{\mathrm{d}}{\mathrm{d}x}\left( \sum_{n=0}^{\infty}x^n \right) \\
+&=\sum_{n=1}^{\infty}nx^{n-1} \hspace{5ex} \text{ for } |x|<1,
+\end{align*}
+we have
+\begin{align*}
+\sum_{n=1}^{\infty} (n\times p_n)&=\sum_{n=1}^{\infty} (n\times \epsilon^{n-1}(1-\epsilon))\\
+&=(1-\epsilon) \sum_{n=1}^{\infty}n{\epsilon}^{n-1}\\
+&=\frac{1}{1-\epsilon}.
+\end{align*}
+
+{\em (c) }Suppose $n$ is the number of iteraitons required in order to reduce the possibility of failure to at most $\delta$, so we have
+\begin{align*}
+{\epsilon}^n & \leq \delta,\\
+\intertext{i.e.}
+n & \leq \log_{\epsilon}{\delta}\\
+ & \leq \left\lceil \frac{\log_2 {\delta}}{\log_2 \epsilon} \right\rceil
+\end{align*}
+\end{proof}
+
+\textbf{5.24}
+
+\begin{proof}
+{\em (a) }
+
+\medskip
+\fbox{
+\begin{minipage}{12cm}
+\textbf{Algorithm: }Lifting($a,b,n$)\\[0.5ex]
+$b_0 ~\leftarrow~ b ~\mod p$\\
+$b_1 ~\leftarrow~ b_0^{-1} ~\mod p$\\
+$h ~\leftarrow~ b^2-a ~\mod p^{i-1}$\\
+$x ~\leftarrow~ -h\frac{p+1}{2}b_1 ~\mod p$\\
+\textbf{return(}$x$\textbf{)}
+\end{minipage}
+}
+
+\medskip
+The reason for the algorithm is following: suppose the lift of $b$ to $\mathbb{Z}_{p^i}$ is $b+xp^{i-1}$, then
+\begin{align*}
+&&(b+xp^{i-1})^2 &\equiv a \pmod{p^i}\\
+\lra && b^2+2bxp^{i-1} &\equiv a \pmod{p^i}\\
+\lra &&2bxp^{i-1} &\equiv -hp^{i-1} \pmod{p^i}\\
+\lra &&x &\equiv -h2^{-1}b^{-1} \pmod{p^i}\\
+\lra &&x &\equiv -h\frac{p+1}{2}b_1 \mod {p}
+\end{align*}
+
+{\em (b)}
+\begin{align*}
+6^2 &\equiv 17 \pmod{19}\\
+(6+11\cdot 19)^2=215^2 &\equiv 17 \pmod{19^2}\\
+(6+11 \cdot 19+2 \cdot 19^2)=937^2&\equiv 17 \pmod{19^3}
+\end{align*}
+
+{\em (c) }This result can be directly deduced from Hensel's Lemma.
+\end{proof}
+
+\textbf{5.29}
+
+\begin{proof}
+{\em (a) }
+\begin{align*}
+n+d^2 &=pq+d^2\\
+ &=p(p+2d)+d^2\\
+ &=(p+d)^2\\
+\end{align*}
+
+{\em (b) }Let $h^2=n+d^2$, then $(h+d)(h-d)=h^2-d^2=n$.
+
+{\em (c) }
+$$n=2189284635403183,$$
+$$d=9,$$
+$$h=46789792,$$
+$$h^2=2189284635403264=n+81,$$
+so
+$$(h+d)(h-d)=46789783\cdot 46789801=2189284635403183=n.$$
+\end{proof}
+
+\textbf{5.30}
+
+\begin{sol}
+$$n=36581,~a=14039,~b=4679,$$
+$$ab-1=65688481=2^5\cdot 2052765$$
+$$r=2052765.$$
+When $w=9983,~\gcd(w,n)=1,$
+$$w^r\equiv 35039 \mod {n}$$
+$$w^{2r}\equiv 36580\equiv-1 \mod {n}.\textbf{~~~~~Fail.}$$
+When $w=13461,~\gcd(w,n)=1,$
+$$w^r\equiv 11747 \mod {n}$$
+$$w^{2r}\equiv 8477 \mod {n}$$
+$$w^{4r}\equiv 14445 \mod {n}$$
+$$w^{8r}\equiv 1 \mod {n}$$
+$$\gcd(14444,n)=157,~\gcd(14446,n)=233,$$
+$$233 \cdot 157=36581=n$$
+\end{sol}
+
+\textbf{5.32}
+
+\begin{sol}
+$$n=317940011,~b=77537081,$$
+the continued fraction expansion of $b/n$ is
+$$[0, 4, 9, 1, 19, 1, 1, 15, 3, 2, 3, 71, 3, 2].$$
+The partial convergents of this continued fraction are as follows:
+$$
+\begin{array}{rcl}
+~[0,4]  &=& 1/4\\
+~[0, 4, 9] &=&9/37\\
+~[0, 4, 9, 1] &=& 10/41\\
+\end{array}
+$$
+The $n'$ and equations are listed:
+$$
+\begin{array}{rll}
+1/4 & n'=310148323 & X^2 - 7791689X + 317940011 = 0,\mbox{ No integer solutions.}\\
+9/37 & n'=2868871996/9& \\
+10/41 & n'=317902032& X^2 - 37980X + 317940011 = 0,~X_1=12457,~X_2=25523
+\end{array}
+$$
+Finally we have the factors of $n=12457\cdot25523.$
+\end{sol}
+
+
+\textbf{5.33}
+
+\begin{sol}
+{\em (a)} $n=41989,~y=e_K(32767)=16027.$
+
+{\em (b)} The four possible decryption of this ciphertext $y$ is
+$$
+\begin{array}{cc}
+x_1=32767, &x_2=7865, \\
+x_3=18837, &x_4=21795.
+\end{array}
+$$
+%{mathematica command: Solve[y (y + B) - 16027 == 0 && Modulus == n, y, Mode -> Modular]}%
+\end{sol}
+
+\section{Public-key Cryptography and Discrete Logarithms}
+
+\textbf{6.4}
+\begin{sol}
+{\em (a)} Suppose $\alpha$ is a primitive element modulo $p$, since $\mathrm{ord}(\alpha)|p(p-1)$, to show $\alpha$ is a primitive element modulo $p^2$ is equivalent to show $\alpha^{p-1} \nequiv 1 \pmod{p^2},$ and $\alpha^p \nequiv 1 \pmod{p^2}$. And we already have
+$$
+\alpha \text{ is a primitive element modulo } p \lra \alpha^p \nequiv 1 \pmod{p^2}.
+$$
+If $\alpha^{(p-1)}\equiv(\alpha+p)^{(p-1)}\equiv 1 \pmod{p^2},$ then we can get $p|\alpha,$ contradicted with the choice of $\alpha$, so at least one of $\alpha$ or $\alpha +p$ is a primitive element modulo $p^2.$
+
+{\em(b)} We only need to check there is no such non-trivial factor $h$ of $p-1$ that $3^h\equiv 1 \pmod{29}$ to confirm 3 is a primitive element modulo 29, and to check $3^{28}\nequiv 1\pmod{29^2}$ to confirm 3 is a primitive element modulo $29^2$.
+
+{\em(c)} 14.
+
+{\em(d)} $24388=2^2\cdot7\cdot 13\cdot67$
+
+$\log_3 3344 =18762 $ in $\mathbb{Z}_{24389}^*.$
+%{Mathematica Command: MultiplicativeOrder[3, 24389, {3344}]}
+\end{sol}
+
+\textbf{6.6}
+
+\begin{sol}
+{\em (a)} $\alpha=2,~p=227,$
+$$
+\begin{array}{rcccl}
+\alpha^{32}&\equiv&176 \pmod{227}&\equiv&2^4 \cdot11 \pmod{227}\\
+\alpha^{40}&\equiv&110 \pmod{227}&\equiv&2\cdot5\cdot11 \pmod{227}\\
+\alpha^{59}&\equiv&60 \pmod{227}&\equiv&2^2\cdot3\cdot5 \pmod{227}\\
+\alpha^{156}&\equiv&28 \pmod{227}&\equiv&2^2\cdot7 \pmod{227}
+\end{array}
+$$
+
+{\em (b)}
+$$
+\begin{array}{ll}
+\log3=46,&\log5=11,\\
+\log7=154,&\log11=28.
+\end{array}
+$$
+
+{\em (c)}
+$$173\cdot 2^{177}\equiv 168 \pmod{227}\equiv 2^3\cdot3\cdot7,$$
+$$\log173=26.$$
+\end{sol}
+
+\textbf{6.7}
+
+\begin{proof}
+{\em (a)} From the following isomorphism
+$$\mathbb{Z}_n \cong \mathbb{Z}_p \oplus \mathbb{Z}_q,$$
+directly we have
+$$\mathrm{ord}_n(\alpha)=\mathrm{lcm}(\mathrm{ord}_p(\alpha),\mathrm{ord}_q(\alpha)).$$
+
+{\em (b)} Suppose $\alpha_p,~\alpha_q$ be generators of $\mathbb{Z}_p,~\mathbb{Z}_q$ respectively. Chinese Remainder Theorem assures the existence of the follow equations
+$$
+\left\{
+\begin{array}{lll}
+x&\equiv&\alpha_p \pmod{n}\\
+x&\equiv&\alpha_q \pmod{n}\\
+\end{array}
+\right. ,
+$$
+denote the solution by $\alpha,$ now applying (a),
+$$\mathrm{ord}_n(\alpha)=\mathrm{lcm}(\mathrm{ord}_p(\alpha),\mathrm{ord}_q(\alpha))=\frac{\phi(n)}{d}.$$
+
+{\em (c)}
+\begin{align*}
+ &~\alpha^a \equiv \alpha^n \pmod{n}\\
+\lra~&~\alpha^{n-a}\equiv 1 \pmod{n}\\
+\lra~&~\exists k\in \mathbb{N}^*,~\text{s.t. } k\frac{\phi(n)}{2}=(n-a),
+\end{align*}
+from $k\frac{\phi(n)}{2}\leq n,~p>3,~q>3,$ we get $k \leq 2$, and from $0\leq a\leq \phi(n)/2-1$, we get $k=2,$ i.e. $n-a=\phi(n).$
+
+{\em (d)} The roots of the equation
+$$x^2+(n-\phi(n)+1)x+n=0$$
+are $p,~q$.
+\end{proof}
+
+\textbf{6.10}
+
+\begin{sol}$x^5+x^3+1$ is irreducible,
+\begin{align*}
+x^5+x^4+1&=\left(1+x+x^2\right) \left(1+x+x^3\right),\\
+x^5+x^4+x^2+1&=(1+x) \left(1+x+x^4\right).
+\end{align*}
+%{Mathematica Command: Factor[x^5 + x^4 + x^2 + 1, Modulus -> 2]}
+\end{sol}
+
+\textbf{6.11}
+
+\begin{sol}
+{\em (a)} $(x^4+x^2)(x^3+x^2+1)\equiv 1+x+x^2+x^3+x^4$, in $\mathbb{F}_2[x]/(x^5+x^2+1).$
+
+{\em (b)} $(x^3+x^2)^{-1}\equiv 1+x+x^2$, in $\mathbb{F}_2[x]/(x^5+x^2+1).$
+
+{\em (c)} $x^{25}\equiv 1+x^3+x^4,$ in $\mathbb{F}_2[x]/(x^5+x^2+1).$
+\end{sol}
+
+\textbf{6.12}
+
+\begin{sol}
+The plaintext is ``GaloisField".
+\end{sol}
+
+\textbf{6.13}
+
+\begin{sol}
+(a) $\#E(\mathbb{F}_{71})=72$.
+
+%(1, 32)(1, 39)(2, 31)(2, 40)
+%(3, 22)(3, 49)(4, 5)(4, 66)(5, 4)
+%(5, 67)(6, 26)(6, 45)(12, 8)(12, 63)
+%(13, 26)(13, 45)(15, 9)(15, 62)(19, 27)
+%(19, 44)(20, 5)(20, 66)(21, 3)(21, 68)
+%(22, 30)(22, 41)(23, 19)(23, 52)(25, 22)
+%(25, 49)(27, 0)(31, 32)(31, 39)(33, 1)
+%(33, 70)(34, 23)(34, 48)(35, 14)(35, 57)
+%(36, 12)(36, 59)(37, 33)(37, 38)(39, 32)
+%(39, 39)(41, 7)(41, 64)(43, 22)(43, 49)
+%(47, 5)(47, 66)(48, 11)(48, 60)(49, 24)
+%(49, 47)(52, 26)(52, 45)(53, 0)(58, 27)
+%(58, 44)(61, 15)(61, 56)(62, 0)(63, 17)
+%(63, 54)(65, 27)(65, 44)(66, 18)(66, 53)
+%(69, 35)(69, 36)
+%Total number of points is 72 
+
+(b) According to Theorem 6.1, $E(\mathbb{F}_{71})$ could only be isomorphism to either $\mathbb{Z}_{72}$ or $\mathbb{Z}_{36} \times \mathbb{Z}_2$. Now from the fact that $E(\mathbb{F}_{71})$ has four points of order 2---they are $(27, 0), (53, 0), (62, 0)$ and the special point $\mathcal{O}$, we can conclude that
+$$E(\mathbb{F}_{71}) \cong \mathbb{Z}_{36} \times \mathbb{Z}_2.$$
+
+(c) From the above discussion we know the maximum order of a point on E is 36, and the point $(3, 22)$ has this order.
+\end{sol}
+
+\textbf{6.14}
+
+\begin{proof}
+Let the three district roots of $x^3+ax+b\equiv 0 \pmod{p}$ be $x_1,~x_2,~x_3$. Hence points $(x_1,~0),~(x_2,~0),~(x_3,~0)$ and the special point $\mathcal{O}$ are the only four points of order 2 on $E$, and according to the group theory, they must be isomorphism to $\mathbb{Z}_2 \times \mathbb{Z}_2$ as groups. Therefore, group $E(\mathbb{F}_p)$ containing the above four points as a subgroup can not be cyclic.
+ \end{proof}
+
+\textbf{6.15}
+
+\begin{sol}
+(a) Directly from the calculation.
+
+(b) Obviously.
+
+(c) $(1,~20),~(1,~53),~(2,~21),~(2,~52),~(71,~17),~(71,~56),~(72,~29),~(72,~44)$ and the special point $\mathcal{O}$.
+%{Mathematica Command: Solve[3 x^4 + 6*34* x^2 - (34)^2 == 0 && Modulus == 73, x, Mode -> Modular]}%
+\end{sol}
+
+\textbf{6.17}
+
+\begin{sol}
+(a) $Q=mP=(8,~15).$
+
+(b)
+
+\begin{tabular}{lllll}
+Ciphertext   & ((18, 1), 21) & ((3, 1), 18) & ((17, 0), 19) & ((28, 0), 18)\\
+Step 1 ($kP$)& ((18, 17), 21) & ((3, 3), 18) & ((17, 26), 19) & ((28, 6), 18)\\
+Step 2 ($kQ$)& (15, 8)  & (2, 9) & (30, 29) & (14, 19)\\
+Plaintext    &  20 & 9 & 12 & 5\\
+\end{tabular}
+
+(c) TILE.
+\end{sol}
+
+\textbf{6.18}
+
+\begin{sol}
+(a) $87=(-1)\cdot 2^0+(-1)\cdot 2^3+(-1)\cdot 2^5+2^7$.
+
+(b) $87P=(102,~88)$.
+\end{sol}
+
+\textbf{6.20}
+
+\begin{sol}
+$log_5 896=147$ in $\mathbb{Z}_{1103}$
+\end{sol}
+
+
+\textbf{6.21}
+
+\begin{proof}
+(a) Since $a^{(p-1)/2} \equiv 1 \pmod{p}$, as square root $a^{(p-1)/4} \equiv \pm 1 \pmod{p}$.
+
+(b)
+\begin{align*}
+ a & \equiv 1 \cdot a \pmod{p}\\
+   & \equiv a^{(p-1)/4} \cdot a \pmod{p}\\
+   & \equiv a^{(p+3)/4} \pmod{p}\\
+   & \equiv (a^{(p+3)/8})^2 \pmod{p}.\\
+\end{align*}
+
+(c) Since $p \equiv 5 \pmod{8}$, we have $\left( \frac{2}{p}\right) =-1$, i.e. $2^{(p-1)/2} \equiv -1 \pmod{p}$.
+\begin{align*}
+ a & \equiv (-1)\cdot (-1) \cdot a \pmod{p}\\
+   & \equiv 2^{(p-1)/2} \cdot a^{(p-1)/4} \cdot a \pmod{p}\\
+   & \equiv 2^{-2} \cdot 4^{(p+3)/4} \cdot a^{(p+3)/4} \pmod{p}\\
+   & \equiv (2^{-1}(4a)^{(p+3)/8})^2 \pmod{p}.\\
+\end{align*}
+
+(d)Based on above discussions, it's known that it is possible to computer square root modulo $p$. Furthermore, since $p\equiv 5 \pmod{8}$, we have $\left( \frac{-1}{p}\right) =1$, that is $L_1(\beta)=L_1(-\beta)$ for all $\beta \in \mathbb{Z}_p ^*$. So $L_2(\beta)=L_1(\pm \sqrt{\beta/\alpha^{L_1(\beta)}})$ can be computered efficiently.
+\end{proof}
+
+\section{Signature Schemes}
+
+\textbf{7.1}
+$p=31847,~\alpha=5,~\beta=25703,~x_1=8990,~(\gamma_1,~\delta_1)=(23972,~31396),~x_2=31415,~(\gamma_2,~\delta_2)=(23972,~20481).$
+
+\begin{sol}
+Notice that $\gamma_1=\gamma_2$, and further calculation shows
+$$(\delta_1-\delta_2)^{-1} \equiv 22317 \mod (p-1),$$
+thus
+\begin{align*}
+a\gamma_1 &= x_2-\delta_2(x_1-x_2)/(\delta_1-\delta_2) \mod(p-1) \\
+&\equiv 23704 \pmod{(p-1)},\\
+\intertext{$a$ has two solutions to this equation, but only one satisfies the eqution $\alpha^a\equiv \beta \pmod{p}$, that is}
+a&\equiv7459\mod(p-1), \\
+%a&\equiv 23382\mod(p-1), \text{wrong}\\
+\intertext{for $k$, we have}
+k&=(x_2-a\gamma_1)\delta_2 \mod(p-1) \\
+&\equiv  1165 \pmod{(p-1)},\\
+\end{align*}
+\end{sol}
+
+\textbf{7.4}
+
+\begin{sol}
+(a) All the notations in this exercise are in accordance with those in Section 7.3.
+\begin{align*}
+\beta^{\lambda}\lambda^\mu & \equiv \beta^\lambda (\gamma^h \alpha^i \beta^j)^{\delta\lambda(h\gamma-j\delta)^{-1}} \pmod{p}\\
+    &\equiv (\beta^{(h\gamma-j\delta)} \gamma^{h\delta} \alpha^{i\delta}\beta^{j\delta})^{(h\gamma-j\delta)^{-1}\lambda} \pmod{p}\\
+    &\equiv (\beta^{h\gamma}\gamma^{h\delta}\alpha^{i\delta})^{\lambda(h\gamma-j\delta)^{-1}} \pmod{p}\\
+    &\equiv (\alpha^{xh}\alpha^{i\delta})^{\lambda(h\gamma-j\delta)^{-1}} \pmod{p}\\
+    &\equiv \alpha^{x'} \pmod{p}.
+\end{align*}
+
+(b)
+\begin{align*}
+\lambda&=363,\\
+\mu &=401,\\
+x' &=385.
+\end{align*}
+\end{sol}
+
+\textbf{7.5}
+
+\begin{sol}
+(a) $\delta=0$ means $x\equiv a\gamma \pmod{(p-1)}$, and since $x,~\gamma$ are public, it's easy to computer $a$.
+
+(b) $\gamma=0$ means $k\delta \equiv x\pmod{q}$, $k$ is thus determined. Using this $k$ any forgery can be made.
+
+(c) In the ECDSA, $r=0$ makes  $k$ is available, $s=0$ yields the secret key $m$.
+\end{sol}
+
+
+\textbf{7.6}
+
+\begin{sol}
+(a)
+$$\verb|ver|_K (x,~(\gamma,~\delta))=\text{true} \Leftrightarrow \beta^\delta \gamma^\gamma \equiv \alpha^x \pmod{p}.$$
+
+(b) One inversion operation in finite field is saved in each procedure of signing.
+
+\end{sol}
+
+\textbf{7.10}
+
+\begin{proof}
+(a) We only need to show
+$$(\alpha ^{e_1} \beta ^{e_2} \mod p) \mod q =\gamma,$$
+where
+\begin{align*}
+e_1& =x \delta^{-1} \mod q \\
+e_2& =\gamma \delta ^{-1} \mod q.
+\end{align*}
+\begin{align*}
+(\alpha ^{e_1} \beta ^{e_2} \mod p) \mod q & =(\alpha ^{x \delta^{-1}} \beta ^{\gamma \delta^{-1}} \mod p) \mod q\\
+   & =(\alpha ^{\lambda^{-1}} \beta ^{\gamma x^{-1}\lambda^{-1}\mod q} \mod p) \mod q\\
+     & =(\alpha \beta^{\gamma x^{-1}})^{\lambda^{-1}\mod q}\mod p \mod q\\
+     & =((\alpha \epsilon^{\gamma})^{\lambda^{-1} \mod q})\mod p \mod q\\
+     & =\gamma
+\end{align*}
+\end{proof}
+
+\textbf{7.13}
+
+\begin{sol}
+(a) The public key $B=mA=(24,~44)$.
+
+(b)$q=131,~x=10,~k=75,~kA=(88,~55),~r=88,~s=60.$
+
+(c)$w=107,~i=22,~j=115,~iA=(91,~18),~jB=(18,~62),~iA+jB=(88,~55),~u=88=r.$
+
+\end{sol}
+
+\textbf{7.14}
+
+\begin{proof}
+Obviously.
+\end{proof}
+
+\textbf{7.15}
+$p=467,~\alpha=4,~\beta=449,~a=101,~y=25,~x=157,~e_1=46,~e_2=123,~f_1=198,~f_2=11.$
+
+\begin{sol}
+
+Bob's challenges:
+\begin{align*}
+c&=280 \\
+C&=17. \\
+\end{align*}
+Alice's responses:
+\begin{align*}
+d&=193 \\
+D&=21. \\
+\end{align*}
+Verification:
+\begin{align*}
+x^{e_1} \alpha^{e_2}&\equiv 22 \nequiv d \pmod{p}\\
+x^{f_1} \alpha^{f_2}&\equiv 276 \nequiv D \pmod{p}\\
+(d\alpha^{-e_2})^{f_1} \equiv 137 \equiv & ~(D\alpha^{-f_2})^{e_1} \pmod{p}.\text{~~~~Forgery.}\\
+\end{align*}
+\end{sol}
+
+\textbf{7.17}
+
+\begin{sol}
+(a)
+\begin{equation*}
+\left\{ \begin{aligned}
+          a_1&=1118-42b_1 \pmod{p}\\
+          a_2&=1449-42b_2 \pmod{p}\\
+          \end{aligned} \right.
+\end{equation*}
+
+(b)
+\begin{equation*}
+\left\{ \begin{aligned}
+          a_1+42b_1&=1118 \pmod{p}\\
+          a_2+42b_2&=1449 \pmod{p}\\
+          a_1+969b_1&=899 \pmod{p}\\
+          a_2+969b_2&=471 \pmod{p}\\
+          \end{aligned} \right.
+\end{equation*}
+\begin{equation*}
+\lra \left\{ \begin{aligned}
+          a_1&=724 \pmod{p}\\
+          a_2&=3109 \pmod{p}\\
+          b_1&=2816 \pmod{p}\\
+          b_2&=2602 \pmod{p}.\\
+          \end{aligned} \right.
+\end{equation*}
+% {Mathematica command: Solve[{a1 + 42 b1 == 1118, a2 + 42 b2 == 1449, a1 + 969 b1 == 899,a2 + 969 b2 == 471 && Modulus == 3467},{a1, b1, a2, b2},Mode -> Modular]}
+\end{sol}
+
+\textbf{7.18}
+
+\begin{sol}
+(a)
+$$\gamma_1\gamma_2 ^x \equiv 1943 \pmod{p},$$
+$$\alpha^{y_1}\beta^{y_2} \equiv 1943 \pmod{p},$$
+so,this signature is valid.
+
+(b)
+\begin{align*}
+y_1&=917, \\
+y_2&=1983, \\
+a_0&=2187.\\
+\end{align*}
+\end{sol}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
